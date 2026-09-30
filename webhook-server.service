@@ -1,0 +1,25 @@
+# Copy of /etc/systemd/system/webhook-server.service on ms-agent-vm.
+# Secret values are NOT in git: set them on the VM only (see README).
+[Unit]
+Description=MarketSizer VM Webhook Server
+After=network.target
+
+[Service]
+Type=simple
+User=niall
+WorkingDirectory=/home/niall/webhook-server
+ExecStart=/usr/bin/node /home/niall/webhook-server/server.mjs
+Restart=always
+RestartSec=5
+Environment=WEBHOOK_SECRET=<set-on-vm>
+Environment=AZURE_FOUNDRY_KEY=<set-on-vm>
+Environment=GITHUB_TOKEN=<set-on-vm>
+Environment=PATH=/usr/local/bin:/usr/bin:/home/niall/.local/bin
+# Optional: gateway path + usage reporting. Leave unset to keep the direct Azure call.
+#Environment=INTERNAL_AI_SECRET=<set-on-vm>
+#Environment=IGGY_GATEWAY_API_KEY=<set-on-vm>
+#Environment=MS_APP_BASE_URL=https://app.marketsizer.io
+#Environment=IGGY_GATEWAY_BASE_URL=https://ms-llm-gateway-app.bluecliff-a2028f6c.uksouth.azurecontainerapps.io
+
+[Install]
+WantedBy=multi-user.target

@@ -1,4 +1,5 @@
-sprint.log
-selected-issues.json
 node_modules
+logs/
+.env
 *.bak
+*.bak.*
