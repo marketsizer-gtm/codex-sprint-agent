@@ -156,7 +156,7 @@ async function loadAgentConfig() {
       return JSON.parse(readFileSync(CONFIG_CACHE_FILE, "utf8"));
     }
   } catch {}
-  const res = await fetch(APP_BASE_URL + "/api/internal/ai/agent-config/" + AGENT_ID, {
+  const res = await fetch(APP_BASE_URL + "/api/admin/ai-ops/vm/agent-config/" + AGENT_ID, {
     headers: { Authorization: "Bearer " + INTERNAL_AI_SECRET },
     signal: AbortSignal.timeout(10_000),
   });
@@ -171,7 +171,7 @@ async function loadAgentConfig() {
 async function reportUsage(entry) {
   if (!INTERNAL_AI_SECRET) return;
   try {
-    await fetch(APP_BASE_URL + "/api/internal/ai/usage", {
+    await fetch(APP_BASE_URL + "/api/admin/ai-ops/vm/usage", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: "Bearer " + INTERNAL_AI_SECRET },
       body: JSON.stringify({ agentId: AGENT_ID, ...entry, metadata: { repo, issue: issueNumber } }),

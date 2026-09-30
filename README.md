@@ -34,12 +34,12 @@ Activity log: `logs/activity.jsonl`.
 `investigate.mjs` picks one of two paths and logs which one it used (`Model path: ...`).
 
 1. **Gateway**, used when `INTERNAL_AI_SECRET` and `IGGY_GATEWAY_API_KEY` are both set:
-   - It reads the model config from `GET {MS_APP_BASE_URL}/api/internal/ai/agent-config/sprint-investigator` and caches it for 60s in `$TMPDIR/sprint-investigator-config.json`.
+   - It reads the model config from `GET {MS_APP_BASE_URL}/api/admin/ai-ops/vm/agent-config/sprint-investigator` and caches it for 60s in `$TMPDIR/sprint-investigator-config.json`.
    - If the config returns `enabled: false`, it logs and exits 0 without commenting.
    - It calls `{IGGY_GATEWAY_BASE_URL}/v1/chat/completions` with tag `sprint-investigator`. `gpt-6*` models get `reasoning_effort: "none"`, and `gpt-5*`/`gpt-6*` models are sent no temperature.
 2. **Direct Azure**, the fallback. It is used when either secret is missing or the config endpoint cannot be reached. It is the same `gpt-5.4-mini` Sweden Central call as before.
 
-After every model call, whether it succeeds or fails, the script POSTs usage to `{MS_APP_BASE_URL}/api/internal/ai/usage`. This is skipped when there is no secret, and it never throws.
+After every model call, whether it succeeds or fails, the script POSTs usage to `{MS_APP_BASE_URL}/api/admin/ai-ops/vm/usage`. This is skipped when there is no secret, and it never throws.
 
 ## Verdict rule
 
